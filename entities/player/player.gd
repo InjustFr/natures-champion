@@ -8,27 +8,23 @@ var _old_direction: Vector2 = Vector2.ZERO
 @onready var _sprite: AnimatedSprite2D = %Sprite2D
 @onready var _spell_sprite: Node2D = $Spell
 @onready var _speed_component: SpeedComponent = $SpeedComponent
-
-
-const transform_matrix: Transform2D = Transform2D(Vector2(1,0.5), Vector2(-1,0.5), Vector2(0,0))
+@onready var _orientation_component: OrientationComponent = $OrientationComponent
 
 
 func _ready() -> void:
+	_sprite.transform = Utils.inverse_transform_matrix * Transform2D(0,Vector2(0,-178))
 	_sprite.play()
 
 
 func _physics_process(_delta: float) -> void:
-	var direction: Vector2 = Input.get_vector("move_left", "move_right", "move_up", "move_down")
+	var direction: Vector2 = _orientation_component.orientation
 	if Input.is_action_pressed("cast"):
-		var rotation_matrix: Transform2D = Transform2D(direction.angle() - PI/4, Vector2(0,0))
-		_spell_sprite.transform = transform_matrix * rotation_matrix
+		_spell_sprite.rotation = direction.rotated(-PI/4).angle()
 		direction = Vector2.ZERO
-
-	direction.y = direction.y / 2 # conversion to iso
 
 	if direction:
 		_old_direction = direction;
-		velocity = direction * _speed_component.speed
+		velocity = Utils.transform_matrix * direction.rotated(-PI/4) * _speed_component.speed
 	else:
 		velocity.x = move_toward(velocity.x, 0, SPEED)
 		velocity.y = move_toward(velocity.y, 0, SPEED)
@@ -40,13 +36,14 @@ func _physics_process(_delta: float) -> void:
 
 
 func _determine_animation() -> String:
-	var angle: float = _old_direction.angle()
+	var angle: float = (_old_direction).angle()
 	if angle < 0:
 		angle = angle + 2 * PI
 
-	var index: int = roundi((angle + PI/4) / (PI / 4))
-	if index > 7:
-		index = 0
+	var index: int = roundi((angle) / (PI / 4))
+
+	index += 1
+	index %= 8
 
 	if velocity.length():
 		return "walk"+str(index)
