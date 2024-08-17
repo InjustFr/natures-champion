@@ -1,10 +1,12 @@
-[gd_scene load_steps=11 format=3 uid="uid://dlauapahh4mjx"]
+[gd_scene load_steps=17 format=3 uid="uid://dlauapahh4mjx"]
 
 [ext_resource type="Script" path="res://entities/player/player.gd" id="1_ipytp"]
 [ext_resource type="SpriteFrames" uid="uid://cw03e80wm2qf1" path="res://entities/player/assets/player.tres" id="2_mdhno"]
 [ext_resource type="Script" path="res://entities/components/isometric_animated_sprite_component.gd" id="3_hxrpy"]
 [ext_resource type="Script" path="res://entities/components/velocity_component.gd" id="7_pwxfr"]
-[ext_resource type="Texture2D" uid="uid://ds5hhb3hxkouk" path="res://assets/spell.png" id="90_7l10c"]
+[ext_resource type="Script" path="res://entities/components/resource_component.gd" id="10_ctqtp"]
+[ext_resource type="Script" path="res://misc/isometric_inverse_projection_node_2d.gd" id="11_copog"]
+[ext_resource type="Script" path="res://entities/components/resource_bar_component.gd" id="11_wy6bw"]
 [ext_resource type="Script" path="res://entities/player/components/dashing_component.gd" id="91_etbmg"]
 [ext_resource type="Script" path="res://entities/player/components/speed_component.gd" id="92_yal5q"]
 [ext_resource type="Script" path="res://entities/components/orientation_component.gd" id="93_0xdff"]
@@ -13,6 +15,18 @@
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_t62ou"]
 radius = 26.0
 height = 68.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xvvdx"]
+bg_color = Color(0.243137, 0.243137, 0.243137, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_47sef"]
+bg_color = Color(1, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_01tka"]
+bg_color = Color(0.243137, 0.243137, 0.243137, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fk05n"]
+bg_color = Color(0.129412, 0.643137, 1, 1)
 
 [node name="Player" type="CharacterBody2D"]
 y_sort_enabled = true
@@ -25,8 +39,7 @@ script = ExtResource("1_ipytp")
 unique_name_in_owner = true
 position = Vector2(0, -178)
 sprite_frames = ExtResource("2_mdhno")
-animation = &"walk3"
-frame_progress = 0.404006
+animation = &"idle3"
 script = ExtResource("3_hxrpy")
 _orientation_component = NodePath("../OrientationComponent")
 animation_name = "idle"
@@ -64,9 +77,59 @@ script = ExtResource("93_0xdff")
 points = PackedVector2Array(0, 0, 400, 0)
 default_color = Color(1, 0, 0, 1)
 
-[node name="Spell" type="Node2D" parent="."]
+[node name="HealthComponent" type="Node" parent="."]
+script = ExtResource("10_ctqtp")
 
-[node name="Sprite2D" type="Sprite2D" parent="Spell"]
-position = Vector2(250, 0)
-rotation = -1.5708
-texture = ExtResource("90_7l10c")
+[node name="ManaComponent" type="Node" parent="."]
+script = ExtResource("10_ctqtp")
+
+[node name="IsometricInverseProjectionNode2D" type="Node2D" parent="."]
+script = ExtResource("11_copog")
+
+[node name="Control" type="Control" parent="IsometricInverseProjectionNode2D"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -960.0
+offset_top = -540.0
+offset_right = 960.0
+offset_bottom = 540.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="IsometricInverseProjectionNode2D/Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 50
+theme_override_constants/margin_top = 50
+theme_override_constants/margin_right = 50
+theme_override_constants/margin_bottom = 50
+
+[node name="VBoxContainer" type="VBoxContainer" parent="IsometricInverseProjectionNode2D/Control/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="HealthBarComponent" type="ProgressBar" parent="IsometricInverseProjectionNode2D/Control/MarginContainer/VBoxContainer" node_paths=PackedStringArray("resource_component")]
+custom_minimum_size = Vector2(200, 30)
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_styles/background = SubResource("StyleBoxFlat_xvvdx")
+theme_override_styles/fill = SubResource("StyleBoxFlat_47sef")
+show_percentage = false
+script = ExtResource("11_wy6bw")
+resource_component = NodePath("../../../../../HealthComponent")
+
+[node name="ManaBarComponent" type="ProgressBar" parent="IsometricInverseProjectionNode2D/Control/MarginContainer/VBoxContainer" node_paths=PackedStringArray("resource_component")]
+custom_minimum_size = Vector2(180, 20)
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_styles/background = SubResource("StyleBoxFlat_01tka")
+theme_override_styles/fill = SubResource("StyleBoxFlat_fk05n")
+show_percentage = false
+script = ExtResource("11_wy6bw")
+resource_component = NodePath("../../../../../ManaComponent")
