@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://dlauapahh4mjx"]
+[gd_scene load_steps=21 format=3 uid="uid://dlauapahh4mjx"]
 
 [ext_resource type="Script" path="res://entities/player/player.gd" id="1_ipytp"]
 [ext_resource type="Script" path="res://entities/components/hurtbox_component.gd" id="2_aafms"]
@@ -8,6 +8,8 @@
 [ext_resource type="Script" path="res://entities/components/resource_component.gd" id="10_ctqtp"]
 [ext_resource type="Script" path="res://misc/isometric_inverse_projection_node_2d.gd" id="11_copog"]
 [ext_resource type="Script" path="res://entities/components/resource_bar_component.gd" id="11_wy6bw"]
+[ext_resource type="Script" path="res://entities/player/components/weapon_component.gd" id="13_6elsm"]
+[ext_resource type="Script" path="res://entities/player/weapons/staff_weapon.gd" id="14_q4xxf"]
 [ext_resource type="Script" path="res://entities/player/components/dashing_component.gd" id="91_etbmg"]
 [ext_resource type="Script" path="res://entities/player/components/speed_component.gd" id="92_yal5q"]
 [ext_resource type="Script" path="res://entities/components/orientation_component.gd" id="93_0xdff"]
@@ -115,6 +117,7 @@ offset_right = 960.0
 offset_bottom = 540.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 1
 
 [node name="MarginContainer" type="MarginContainer" parent="IsometricInverseProjectionNode2D/GUI"]
 layout_mode = 1
@@ -151,3 +154,11 @@ theme_override_styles/fill = SubResource("StyleBoxFlat_fk05n")
 show_percentage = false
 script = ExtResource("11_wy6bw")
 resource_component = NodePath("../../../../../ManaComponent")
+
+[node name="WeaponComponent" type="Node" parent="." node_paths=PackedStringArray("weapon", "spawning_entity")]
+script = ExtResource("13_6elsm")
+weapon = NodePath("StaffWeapon")
+spawning_entity = NodePath("..")
+
+[node name="StaffWeapon" type="Node" parent="WeaponComponent"]
+script = ExtResource("14_q4xxf")

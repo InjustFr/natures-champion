@@ -1,0 +1,58 @@
+[gd_scene load_steps=11 format=3 uid="uid://bycwwu8pb35b5"]
+
+[ext_resource type="Script" path="res://entities/projectiles/staff_projectile/staff_projectile.gd" id="1_8dshf"]
+[ext_resource type="Script" path="res://entities/components/velocity_component.gd" id="1_kbsve"]
+[ext_resource type="Script" path="res://entities/components/damage_component.gd" id="1_oqvum"]
+[ext_resource type="Script" path="res://misc/isometric_inverse_projection_node_2d.gd" id="2_33wej"]
+[ext_resource type="Script" path="res://entities/player/components/speed_component.gd" id="2_pgvay"]
+[ext_resource type="Script" path="res://entities/components/orientation_component.gd" id="3_qfwed"]
+[ext_resource type="Script" path="res://entities/projectiles/components/straight_movement_component.gd" id="4_keh76"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_1i6gs"]
+size = Vector2(40, 40)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_5bgxl"]
+size = Vector2(40, 40)
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_03kqd"]
+size = Vector2(40, 40)
+
+[node name="StaffProjectile" type="StaticBody2D"]
+collision_layer = 2
+collision_mask = 5
+script = ExtResource("1_8dshf")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_1i6gs")
+
+[node name="SpeedComponent" type="Node" parent="."]
+script = ExtResource("2_pgvay")
+speed = 700.0
+
+[node name="OrientationComponent" type="Node" parent="."]
+script = ExtResource("3_qfwed")
+
+[node name="VelocityComponent" type="Node" parent="."]
+script = ExtResource("1_kbsve")
+
+[node name="StraightMovementComponent" type="Node" parent="." node_paths=PackedStringArray("speed_component", "velocity_component", "orientation_component")]
+script = ExtResource("4_keh76")
+speed_component = NodePath("../SpeedComponent")
+velocity_component = NodePath("../VelocityComponent")
+orientation_component = NodePath("../OrientationComponent")
+
+[node name="DamageComponent" type="Area2D" parent="."]
+collision_layer = 4
+collision_mask = 0
+monitoring = false
+script = ExtResource("1_oqvum")
+damage = 5
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DamageComponent"]
+shape = SubResource("RectangleShape2D_5bgxl")
+
+[node name="IsometricInverseProjectionNode2D" type="Node2D" parent="."]
+script = ExtResource("2_33wej")
+
+[node name="Sprite2D" type="Sprite2D" parent="IsometricInverseProjectionNode2D"]
+texture = SubResource("PlaceholderTexture2D_03kqd")

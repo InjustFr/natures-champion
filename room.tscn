@@ -3,7 +3,7 @@
 [ext_resource type="Texture2D" uid="uid://u0bjl3qk40tx" path="res://assets/tiles_atlas.png" id="1_ebv7l"]
 [ext_resource type="PackedScene" uid="uid://dlauapahh4mjx" path="res://entities/player/player.tscn" id="2_4iu5r"]
 [ext_resource type="Script" path="res://misc/isometric_projection_node_2d.gd" id="2_va6b0"]
-[ext_resource type="PackedScene" uid="uid://bycwwu8pb35b5" path="res://entities/weapon_projectiles/staff_projectile/staff_projectile.tscn" id="4_qtctr"]
+[ext_resource type="PackedScene" uid="uid://bycwwu8pb35b5" path="res://entities/projectiles/staff_projectile/staff_projectile.tscn" id="4_qtctr"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_64eyj"]
 texture = ExtResource("1_ebv7l")
