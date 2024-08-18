@@ -1,0 +1,28 @@
+[gd_scene load_steps=5 format=3 uid="uid://bycwwu8pb35b5"]
+
+[ext_resource type="Script" path="res://entities/components/damage_component.gd" id="1_oqvum"]
+[ext_resource type="Script" path="res://misc/isometric_inverse_projection_node_2d.gd" id="2_33wej"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_5bgxl"]
+size = Vector2(40, 40)
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_03kqd"]
+size = Vector2(40, 40)
+
+[node name="StaffProjectile" type="Node2D"]
+
+[node name="DamageComponent" type="Area2D" parent="."]
+collision_layer = 4
+collision_mask = 0
+monitoring = false
+script = ExtResource("1_oqvum")
+damage = 5
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DamageComponent"]
+shape = SubResource("RectangleShape2D_5bgxl")
+
+[node name="IsometricInverseProjectionNode2D" type="Node2D" parent="."]
+script = ExtResource("2_33wej")
+
+[node name="Sprite2D" type="Sprite2D" parent="IsometricInverseProjectionNode2D"]
+texture = SubResource("PlaceholderTexture2D_03kqd")

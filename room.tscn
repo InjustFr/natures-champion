@@ -1,8 +1,9 @@
-[gd_scene load_steps=6 format=4 uid="uid://dfhwn2og55nd5"]
+[gd_scene load_steps=7 format=4 uid="uid://dfhwn2og55nd5"]
 
 [ext_resource type="Texture2D" uid="uid://u0bjl3qk40tx" path="res://assets/tiles_atlas.png" id="1_ebv7l"]
 [ext_resource type="PackedScene" uid="uid://dlauapahh4mjx" path="res://entities/player/player.tscn" id="2_4iu5r"]
 [ext_resource type="Script" path="res://misc/isometric_projection_node_2d.gd" id="2_va6b0"]
+[ext_resource type="PackedScene" uid="uid://bycwwu8pb35b5" path="res://entities/weapon_projectiles/staff_projectile/staff_projectile.tscn" id="4_qtctr"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_64eyj"]
 texture = ExtResource("1_ebv7l")
@@ -507,3 +508,6 @@ tile_set = SubResource("TileSet_oy1h0")
 script = ExtResource("2_va6b0")
 
 [node name="Player" parent="IsometricProjectionNode2D" instance=ExtResource("2_4iu5r")]
+
+[node name="StaffProjectile" parent="IsometricProjectionNode2D" instance=ExtResource("4_qtctr")]
+position = Vector2(389, -197)

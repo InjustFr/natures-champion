@@ -1,6 +1,7 @@
-[gd_scene load_steps=17 format=3 uid="uid://dlauapahh4mjx"]
+[gd_scene load_steps=19 format=3 uid="uid://dlauapahh4mjx"]
 
 [ext_resource type="Script" path="res://entities/player/player.gd" id="1_ipytp"]
+[ext_resource type="Script" path="res://entities/components/hurtbox_component.gd" id="2_aafms"]
 [ext_resource type="SpriteFrames" uid="uid://cw03e80wm2qf1" path="res://entities/player/assets/player.tres" id="2_mdhno"]
 [ext_resource type="Script" path="res://entities/components/isometric_animated_sprite_component.gd" id="3_hxrpy"]
 [ext_resource type="Script" path="res://entities/components/velocity_component.gd" id="7_pwxfr"]
@@ -11,6 +12,10 @@
 [ext_resource type="Script" path="res://entities/player/components/speed_component.gd" id="92_yal5q"]
 [ext_resource type="Script" path="res://entities/components/orientation_component.gd" id="93_0xdff"]
 [ext_resource type="Script" path="res://entities/player/components/player_input_component.gd" id="94_ccvjn"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_1c5un"]
+radius = 32.0
+height = 144.0
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_t62ou"]
 radius = 26.0
@@ -30,8 +35,21 @@ bg_color = Color(0.129412, 0.643137, 1, 1)
 
 [node name="Player" type="CharacterBody2D"]
 y_sort_enabled = true
+collision_layer = 2
+collision_mask = 5
 motion_mode = 1
 script = ExtResource("1_ipytp")
+
+[node name="HurtboxComponent" type="Area2D" parent="." node_paths=PackedStringArray("health_component")]
+collision_layer = 0
+collision_mask = 4
+monitorable = false
+script = ExtResource("2_aafms")
+health_component = NodePath("../HealthComponent")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtboxComponent"]
+position = Vector2(0, -40)
+shape = SubResource("CapsuleShape2D_1c5un")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 
@@ -86,7 +104,7 @@ script = ExtResource("10_ctqtp")
 [node name="IsometricInverseProjectionNode2D" type="Node2D" parent="."]
 script = ExtResource("11_copog")
 
-[node name="Control" type="Control" parent="IsometricInverseProjectionNode2D"]
+[node name="GUI" type="Control" parent="IsometricInverseProjectionNode2D"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -98,7 +116,7 @@ offset_bottom = 540.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="MarginContainer" type="MarginContainer" parent="IsometricInverseProjectionNode2D/Control"]
+[node name="MarginContainer" type="MarginContainer" parent="IsometricInverseProjectionNode2D/GUI"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -110,11 +128,11 @@ theme_override_constants/margin_top = 50
 theme_override_constants/margin_right = 50
 theme_override_constants/margin_bottom = 50
 
-[node name="VBoxContainer" type="VBoxContainer" parent="IsometricInverseProjectionNode2D/Control/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="IsometricInverseProjectionNode2D/GUI/MarginContainer"]
 layout_mode = 2
 theme_override_constants/separation = 0
 
-[node name="HealthBarComponent" type="ProgressBar" parent="IsometricInverseProjectionNode2D/Control/MarginContainer/VBoxContainer" node_paths=PackedStringArray("resource_component")]
+[node name="HealthBarComponent" type="ProgressBar" parent="IsometricInverseProjectionNode2D/GUI/MarginContainer/VBoxContainer" node_paths=PackedStringArray("resource_component")]
 custom_minimum_size = Vector2(200, 30)
 layout_mode = 2
 size_flags_horizontal = 0
@@ -124,7 +142,7 @@ show_percentage = false
 script = ExtResource("11_wy6bw")
 resource_component = NodePath("../../../../../HealthComponent")
 
-[node name="ManaBarComponent" type="ProgressBar" parent="IsometricInverseProjectionNode2D/Control/MarginContainer/VBoxContainer" node_paths=PackedStringArray("resource_component")]
+[node name="ManaBarComponent" type="ProgressBar" parent="IsometricInverseProjectionNode2D/GUI/MarginContainer/VBoxContainer" node_paths=PackedStringArray("resource_component")]
 custom_minimum_size = Vector2(180, 20)
 layout_mode = 2
 size_flags_horizontal = 0
