@@ -1,4 +1,4 @@
-class_name IsometricAnimatedSpriteComponent
+class_name EightDirectionAnimatedSpriteComponent
 extends AnimatedSprite2D
 
 
@@ -9,7 +9,6 @@ extends AnimatedSprite2D
 
 
 func _ready() -> void:
-	transform = Utils.inverse_transform_matrix * transform
 	play()
 
 

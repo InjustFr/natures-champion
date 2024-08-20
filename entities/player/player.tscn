@@ -1,12 +1,11 @@
-[gd_scene load_steps=21 format=3 uid="uid://dlauapahh4mjx"]
+[gd_scene load_steps=20 format=3 uid="uid://dlauapahh4mjx"]
 
 [ext_resource type="Script" path="res://entities/player/player.gd" id="1_ipytp"]
 [ext_resource type="Script" path="res://entities/components/hurtbox_component.gd" id="2_aafms"]
 [ext_resource type="SpriteFrames" uid="uid://cw03e80wm2qf1" path="res://entities/player/assets/player.tres" id="2_mdhno"]
-[ext_resource type="Script" path="res://entities/components/isometric_animated_sprite_component.gd" id="3_hxrpy"]
+[ext_resource type="Script" path="res://entities/components/eight_direction_animated_sprite_component.gd" id="3_hxrpy"]
 [ext_resource type="Script" path="res://entities/components/velocity_component.gd" id="7_pwxfr"]
 [ext_resource type="Script" path="res://entities/components/resource_component.gd" id="10_ctqtp"]
-[ext_resource type="Script" path="res://misc/isometric_inverse_projection_node_2d.gd" id="11_copog"]
 [ext_resource type="Script" path="res://entities/components/resource_bar_component.gd" id="11_wy6bw"]
 [ext_resource type="Script" path="res://entities/player/components/weapon_component.gd" id="13_6elsm"]
 [ext_resource type="Script" path="res://entities/player/weapons/staff_weapon.gd" id="14_q4xxf"]
@@ -62,7 +61,6 @@ sprite_frames = ExtResource("2_mdhno")
 animation = &"idle3"
 script = ExtResource("3_hxrpy")
 _orientation_component = NodePath("../OrientationComponent")
-animation_name = "idle"
 zero_vector = Vector2(0, -1)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -71,7 +69,7 @@ shape = SubResource("CapsuleShape2D_t62ou")
 
 [node name="SpeedComponent" type="Node" parent="."]
 script = ExtResource("92_yal5q")
-speed = 600.0
+speed = 700.0
 
 [node name="DashingComponent" type="Timer" parent="." node_paths=PackedStringArray("speed_component")]
 process_callback = 0
@@ -103,10 +101,7 @@ script = ExtResource("10_ctqtp")
 [node name="ManaComponent" type="Node" parent="."]
 script = ExtResource("10_ctqtp")
 
-[node name="IsometricInverseProjectionNode2D" type="Node2D" parent="."]
-script = ExtResource("11_copog")
-
-[node name="GUI" type="Control" parent="IsometricInverseProjectionNode2D"]
+[node name="GUI" type="Control" parent="."]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -119,7 +114,7 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 1
 
-[node name="MarginContainer" type="MarginContainer" parent="IsometricInverseProjectionNode2D/GUI"]
+[node name="MarginContainer" type="MarginContainer" parent="GUI"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -131,11 +126,11 @@ theme_override_constants/margin_top = 50
 theme_override_constants/margin_right = 50
 theme_override_constants/margin_bottom = 50
 
-[node name="VBoxContainer" type="VBoxContainer" parent="IsometricInverseProjectionNode2D/GUI/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="GUI/MarginContainer"]
 layout_mode = 2
 theme_override_constants/separation = 0
 
-[node name="HealthBarComponent" type="ProgressBar" parent="IsometricInverseProjectionNode2D/GUI/MarginContainer/VBoxContainer" node_paths=PackedStringArray("resource_component")]
+[node name="HealthBarComponent" type="ProgressBar" parent="GUI/MarginContainer/VBoxContainer" node_paths=PackedStringArray("resource_component")]
 custom_minimum_size = Vector2(200, 30)
 layout_mode = 2
 size_flags_horizontal = 0
@@ -143,9 +138,9 @@ theme_override_styles/background = SubResource("StyleBoxFlat_xvvdx")
 theme_override_styles/fill = SubResource("StyleBoxFlat_47sef")
 show_percentage = false
 script = ExtResource("11_wy6bw")
-resource_component = NodePath("../../../../../HealthComponent")
+resource_component = NodePath("../../../../HealthComponent")
 
-[node name="ManaBarComponent" type="ProgressBar" parent="IsometricInverseProjectionNode2D/GUI/MarginContainer/VBoxContainer" node_paths=PackedStringArray("resource_component")]
+[node name="ManaBarComponent" type="ProgressBar" parent="GUI/MarginContainer/VBoxContainer" node_paths=PackedStringArray("resource_component")]
 custom_minimum_size = Vector2(180, 20)
 layout_mode = 2
 size_flags_horizontal = 0
@@ -153,7 +148,7 @@ theme_override_styles/background = SubResource("StyleBoxFlat_01tka")
 theme_override_styles/fill = SubResource("StyleBoxFlat_fk05n")
 show_percentage = false
 script = ExtResource("11_wy6bw")
-resource_component = NodePath("../../../../../ManaComponent")
+resource_component = NodePath("../../../../ManaComponent")
 
 [node name="WeaponComponent" type="Node" parent="." node_paths=PackedStringArray("weapon", "spawning_entity")]
 script = ExtResource("13_6elsm")

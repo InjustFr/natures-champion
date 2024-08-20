@@ -8,4 +8,4 @@ extends Node
 
 
 func _physics_process(_delta: float) -> void:
-	velocity_component.velocity = orientation_component.orientation * speed_component.speed
+	velocity_component.velocity = Utils.transform_matrix * orientation_component.orientation * speed_component.speed

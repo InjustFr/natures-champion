@@ -2,7 +2,7 @@ class_name Player
 extends CharacterBody2D
 
 
-@onready var sprite: IsometricAnimatedSpriteComponent = %Sprite2D
+@onready var sprite: EightDirectionAnimatedSpriteComponent = %Sprite2D
 @onready var velocity_component: VelocityComponent = $VelocityComponent
 @onready var orientation_component: OrientationComponent = $OrientationComponent
 @onready var health_component: ResourceComponent = $HealthComponent
@@ -11,7 +11,7 @@ extends CharacterBody2D
 
 
 func _physics_process(_delta: float) -> void:
-	line.rotation = orientation_component.orientation.angle()
+	line.transform = Utils.transform_matrix * Transform2D(orientation_component.orientation.angle(), Vector2(0,0))
 
 	if Input.is_action_just_pressed("cast"):
 		health_component.current -= 5
