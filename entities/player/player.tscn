@@ -69,7 +69,7 @@ shape = SubResource("CapsuleShape2D_t62ou")
 
 [node name="SpeedComponent" type="Node" parent="."]
 script = ExtResource("92_yal5q")
-speed = 700.0
+speed = 900.0
 
 [node name="DashingComponent" type="Timer" parent="." node_paths=PackedStringArray("speed_component")]
 process_callback = 0
