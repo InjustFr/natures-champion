@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3 uid="uid://nryj5l57knym"]
+
+[ext_resource type="Script" path="res://stages/exit_point.gd" id="1_31egn"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_xv63u"]
+radius = 128.0
+
+[node name="ExitPoint" type="Area2D"]
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("1_31egn")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_xv63u")

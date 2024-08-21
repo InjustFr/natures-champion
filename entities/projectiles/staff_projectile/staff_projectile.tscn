@@ -44,7 +44,7 @@ velocity_component = NodePath("../VelocityComponent")
 orientation_component = NodePath("../OrientationComponent")
 
 [node name="DamageComponent" type="Area2D" parent="."]
-collision_layer = 4
+collision_layer = 2
 collision_mask = 0
 monitoring = false
 script = ExtResource("1_oqvum")
@@ -52,3 +52,7 @@ damage = 5
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="DamageComponent"]
 shape = SubResource("RectangleShape2D_5bgxl")
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+position = Vector2(7.45058e-07, 1.90735e-06)
+scale = Vector2(2, 2)
