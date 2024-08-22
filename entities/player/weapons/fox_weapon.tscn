@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://bqmlir4ejd7bg"]
+
+[ext_resource type="Script" path="res://entities/player/weapons/staff_weapon.gd" id="1_jl5q8"]
+
+[node name="StaffWeapon" type="Node"]
+script = ExtResource("1_jl5q8")

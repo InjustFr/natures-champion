@@ -1,26 +1,28 @@
-[gd_scene load_steps=20 format=3 uid="uid://dlauapahh4mjx"]
+[gd_scene load_steps=22 format=3 uid="uid://dlauapahh4mjx"]
 
 [ext_resource type="Script" path="res://entities/player/player.gd" id="1_ipytp"]
 [ext_resource type="Script" path="res://entities/components/hurtbox_component.gd" id="2_aafms"]
 [ext_resource type="SpriteFrames" uid="uid://cw03e80wm2qf1" path="res://entities/player/assets/player.tres" id="2_mdhno"]
 [ext_resource type="Script" path="res://entities/components/eight_direction_animated_sprite_component.gd" id="3_hxrpy"]
+[ext_resource type="Script" path="res://entities/player/components/stats_component.gd" id="5_2tj72"]
+[ext_resource type="Resource" uid="uid://yp1lyohq7lco" path="res://entities/player/resources/stats/staff_player_stats.tres" id="6_8nrwu"]
 [ext_resource type="Script" path="res://entities/components/velocity_component.gd" id="7_pwxfr"]
 [ext_resource type="Script" path="res://entities/components/resource_component.gd" id="10_ctqtp"]
 [ext_resource type="Script" path="res://entities/components/resource_bar_component.gd" id="11_wy6bw"]
 [ext_resource type="Script" path="res://entities/player/components/weapon_component.gd" id="13_6elsm"]
-[ext_resource type="Script" path="res://entities/player/weapons/staff_weapon.gd" id="14_q4xxf"]
+[ext_resource type="PackedScene" uid="uid://bvytnhqr1pm0f" path="res://entities/player/components/animal_transform_component.tscn" id="14_mm6ol"]
+[ext_resource type="Resource" uid="uid://dc06r38ye75a" path="res://entities/player/resources/animal_transforms/fox_transform.tres" id="15_v8onr"]
 [ext_resource type="Script" path="res://entities/player/components/dashing_component.gd" id="91_etbmg"]
-[ext_resource type="Script" path="res://entities/player/components/speed_component.gd" id="92_yal5q"]
 [ext_resource type="Script" path="res://entities/components/orientation_component.gd" id="93_0xdff"]
 [ext_resource type="Script" path="res://entities/player/components/player_input_component.gd" id="94_ccvjn"]
-
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_1c5un"]
-radius = 32.0
-height = 144.0
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_t62ou"]
 radius = 26.0
 height = 68.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_1c5un"]
+radius = 32.0
+height = 144.0
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xvvdx"]
 bg_color = Color(0.243137, 0.243137, 0.243137, 1)
@@ -41,6 +43,10 @@ collision_mask = 5
 motion_mode = 1
 script = ExtResource("1_ipytp")
 
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_t62ou")
+
 [node name="HurtboxComponent" type="Area2D" parent="." node_paths=PackedStringArray("health_component")]
 collision_layer = 0
 collision_mask = 4
@@ -54,7 +60,7 @@ shape = SubResource("CapsuleShape2D_1c5un")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 
-[node name="Sprite2D" type="AnimatedSprite2D" parent="." node_paths=PackedStringArray("_orientation_component")]
+[node name="EightDirectionAnimatedSpriteComponent" type="AnimatedSprite2D" parent="." node_paths=PackedStringArray("_orientation_component", "stats_component")]
 unique_name_in_owner = true
 position = Vector2(0, -178)
 sprite_frames = ExtResource("2_mdhno")
@@ -62,28 +68,24 @@ animation = &"idle3"
 script = ExtResource("3_hxrpy")
 _orientation_component = NodePath("../OrientationComponent")
 zero_vector = Vector2(0, -1)
+stats_component = NodePath("../StatsComponent")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-rotation = 1.5708
-shape = SubResource("CapsuleShape2D_t62ou")
+[node name="StatsComponent" type="Node" parent="."]
+script = ExtResource("5_2tj72")
+stats = ExtResource("6_8nrwu")
 
-[node name="SpeedComponent" type="Node" parent="."]
-script = ExtResource("92_yal5q")
-speed = 900.0
-
-[node name="DashingComponent" type="Timer" parent="." node_paths=PackedStringArray("speed_component")]
+[node name="DashingComponent" type="Timer" parent="."]
 process_callback = 0
 wait_time = 0.15
 one_shot = true
 script = ExtResource("91_etbmg")
-speed_component = NodePath("../SpeedComponent")
 dash_multiplier = 4.0
 
-[node name="PlayerInputComponent" type="Node" parent="." node_paths=PackedStringArray("_orientation_component", "_velocity_component", "_speed_component")]
+[node name="PlayerInputComponent" type="Node" parent="." node_paths=PackedStringArray("orientation_component", "velocity_component", "stats_component")]
 script = ExtResource("94_ccvjn")
-_orientation_component = NodePath("../OrientationComponent")
-_velocity_component = NodePath("../VelocityComponent")
-_speed_component = NodePath("../SpeedComponent")
+orientation_component = NodePath("../OrientationComponent")
+velocity_component = NodePath("../VelocityComponent")
+stats_component = NodePath("../StatsComponent")
 
 [node name="VelocityComponent" type="Node" parent="."]
 script = ExtResource("7_pwxfr")
@@ -150,10 +152,11 @@ show_percentage = false
 script = ExtResource("11_wy6bw")
 resource_component = NodePath("../../../../ManaComponent")
 
-[node name="WeaponComponent" type="Node" parent="." node_paths=PackedStringArray("weapon", "spawning_entity")]
+[node name="WeaponComponent" type="Node" parent="." node_paths=PackedStringArray("spawning_entity", "stats_component")]
 script = ExtResource("13_6elsm")
-weapon = NodePath("StaffWeapon")
 spawning_entity = NodePath("..")
+stats_component = NodePath("../StatsComponent")
 
-[node name="StaffWeapon" type="Node" parent="WeaponComponent"]
-script = ExtResource("14_q4xxf")
+[node name="AnimalTransformComponent" parent="." node_paths=PackedStringArray("stats_component") instance=ExtResource("14_mm6ol")]
+animal_transform = ExtResource("15_v8onr")
+stats_component = NodePath("../StatsComponent")

@@ -2,12 +2,12 @@ class_name Player
 extends CharacterBody2D
 
 
-@onready var sprite: EightDirectionAnimatedSpriteComponent = %Sprite2D
 @onready var velocity_component: VelocityComponent = $VelocityComponent
 @onready var orientation_component: OrientationComponent = $OrientationComponent
 @onready var health_component: ResourceComponent = $HealthComponent
 @onready var mana_component: ResourceComponent = $ManaComponent
 @onready var line: Line2D = $Line2D
+@onready var eight_direction_animated_sprite_component: EightDirectionAnimatedSpriteComponent = %EightDirectionAnimatedSpriteComponent
 
 
 func _physics_process(_delta: float) -> void:
@@ -19,9 +19,9 @@ func _physics_process(_delta: float) -> void:
 
 	velocity = velocity_component.velocity
 
-	sprite.animation_name = "idle"
+	eight_direction_animated_sprite_component.animation_name = "idle"
 	if velocity:
-		sprite.animation_name = "walk"
+		eight_direction_animated_sprite_component.animation_name = "walk"
 
 	@warning_ignore("return_value_discarded")
 	move_and_slide()

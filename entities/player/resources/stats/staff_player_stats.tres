@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="Stats" load_steps=4 format=3 uid="uid://yp1lyohq7lco"]
+
+[ext_resource type="Script" path="res://entities/player/resources/stats/stats.gd" id="1_qflfu"]
+[ext_resource type="SpriteFrames" uid="uid://cw03e80wm2qf1" path="res://entities/player/assets/player.tres" id="2_mcjln"]
+[ext_resource type="PackedScene" uid="uid://cmv6jq4lawfjx" path="res://entities/player/weapons/staff_weapon.tscn" id="3_ti7y1"]
+
+[resource]
+script = ExtResource("1_qflfu")
+speed = 900.0
+weapon = ExtResource("3_ti7y1")
+texture = ExtResource("2_mcjln")
