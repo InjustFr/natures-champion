@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://dlauapahh4mjx"]
+[gd_scene load_steps=23 format=3 uid="uid://dlauapahh4mjx"]
 
 [ext_resource type="Script" path="res://entities/player/player.gd" id="1_ipytp"]
 [ext_resource type="Script" path="res://entities/components/hurtbox_component.gd" id="2_aafms"]
@@ -12,6 +12,7 @@
 [ext_resource type="Script" path="res://entities/player/components/weapon_component.gd" id="13_6elsm"]
 [ext_resource type="PackedScene" uid="uid://bvytnhqr1pm0f" path="res://entities/player/components/animal_transform_component.tscn" id="14_mm6ol"]
 [ext_resource type="Resource" uid="uid://dc06r38ye75a" path="res://entities/player/resources/animal_transforms/fox_transform.tres" id="15_v8onr"]
+[ext_resource type="Script" path="res://entities/player/components/player_upgrades_component.gd" id="16_h4ngf"]
 [ext_resource type="Script" path="res://entities/player/components/dashing_component.gd" id="91_etbmg"]
 [ext_resource type="Script" path="res://entities/components/orientation_component.gd" id="93_0xdff"]
 [ext_resource type="Script" path="res://entities/player/components/player_input_component.gd" id="94_ccvjn"]
@@ -68,6 +69,10 @@ animation = &"idle3"
 script = ExtResource("3_hxrpy")
 _orientation_component = NodePath("../OrientationComponent")
 zero_vector = Vector2(0, -1)
+stats_component = NodePath("../StatsComponent")
+
+[node name="AnimalTransformComponent" parent="." node_paths=PackedStringArray("stats_component") instance=ExtResource("14_mm6ol")]
+animal_transform = ExtResource("15_v8onr")
 stats_component = NodePath("../StatsComponent")
 
 [node name="StatsComponent" type="Node" parent="."]
@@ -157,6 +162,7 @@ script = ExtResource("13_6elsm")
 spawning_entity = NodePath("..")
 stats_component = NodePath("../StatsComponent")
 
-[node name="AnimalTransformComponent" parent="." node_paths=PackedStringArray("stats_component") instance=ExtResource("14_mm6ol")]
-animal_transform = ExtResource("15_v8onr")
+[node name="PlayerUpgradesComponent" type="Node" parent="." node_paths=PackedStringArray("stats_component", "player")]
+script = ExtResource("16_h4ngf")
 stats_component = NodePath("../StatsComponent")
+player = NodePath("..")

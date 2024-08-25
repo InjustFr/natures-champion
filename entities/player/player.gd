@@ -8,14 +8,14 @@ extends CharacterBody2D
 @onready var mana_component: ResourceComponent = $ManaComponent
 @onready var line: Line2D = $Line2D
 @onready var eight_direction_animated_sprite_component: EightDirectionAnimatedSpriteComponent = %EightDirectionAnimatedSpriteComponent
-
+@onready var player_upgrades_component: PlayerUpgradesComponent = $PlayerUpgradesComponent
+@onready var speed_upgrade: PlayerUpgrade = preload("res://entities/player/upgrades/speed_upgrade.tres")
 
 func _physics_process(_delta: float) -> void:
 	line.transform = Utils.transform_matrix * Transform2D(orientation_component.orientation.angle(), Vector2(0,0))
 
 	if Input.is_action_just_pressed("cast"):
-		health_component.current -= 5
-		mana_component.current -= 4
+		player_upgrades_component.apply_upgrade(speed_upgrade)
 
 	velocity = velocity_component.velocity
 

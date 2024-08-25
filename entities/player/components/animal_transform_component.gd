@@ -9,6 +9,7 @@ extends Node
 @onready var cooldown_timer: Timer = $CooldownTimer
 
 var untransformed_stats: Stats = null
+var transformed: bool = false
 
 
 func _ready() -> void:
@@ -26,8 +27,10 @@ func _start_transformation() -> void:
 	untransformed_stats = stats_component.stats
 	stats_component.stats = animal_transform.stats
 	transform_timer.start()
+	transformed = true
 
 
 func _stop_transformation() -> void:
 	stats_component.stats = untransformed_stats
 	cooldown_timer.start()
+	transformed = false

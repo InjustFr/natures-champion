@@ -7,5 +7,8 @@
 [resource]
 script = ExtResource("1_m183d")
 speed = 1500.0
+bonus_damage = 0.0
+bonus_secondary_damage = 0.0
 weapon = ExtResource("3_ouixo")
 texture = ExtResource("2_uppd5")
+transformation_stats = true
