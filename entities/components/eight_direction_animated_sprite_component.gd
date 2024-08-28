@@ -9,8 +9,6 @@ extends AnimatedSprite2D
 
 
 func _ready() -> void:
-	@warning_ignore("return_value_discarded")
-	stats_component.stats_changed.connect(_on_stats_changed)
 	play()
 
 
@@ -28,9 +26,3 @@ func _determine_animation_index() -> int:
 	index %= 8
 
 	return index
-
-
-@export var stats_component: StatsComponent
-
-func _on_stats_changed(new_stats: Stats) -> void:
-	sprite_frames = new_stats.texture

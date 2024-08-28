@@ -10,6 +10,12 @@ extends CharacterBody2D
 @onready var eight_direction_animated_sprite_component: EightDirectionAnimatedSpriteComponent = %EightDirectionAnimatedSpriteComponent
 @onready var player_upgrades_component: PlayerUpgradesComponent = $PlayerUpgradesComponent
 @onready var speed_upgrade: PlayerUpgrade = preload("res://entities/player/upgrades/speed_upgrade.tres")
+@onready var stats_component: StatsComponent = $StatsComponent
+
+
+func _ready() -> void:
+	@warning_ignore("return_value_discarded")
+	stats_component.stats_changed.connect(_on_stats_changed)
 
 func _physics_process(_delta: float) -> void:
 	line.transform = Utils.transform_matrix * Transform2D(orientation_component.orientation.angle(), Vector2(0,0))
@@ -25,3 +31,7 @@ func _physics_process(_delta: float) -> void:
 
 	@warning_ignore("return_value_discarded")
 	move_and_slide()
+
+
+func _on_stats_changed(new_stats: Stats) -> void:
+	eight_direction_animated_sprite_component.sprite_frames = new_stats.texture

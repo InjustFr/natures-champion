@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://entities/projectiles/staff_projectile/staff_projectile.gd" id="1_8dshf"]
 [ext_resource type="Script" path="res://entities/components/velocity_component.gd" id="1_kbsve"]
 [ext_resource type="Script" path="res://entities/components/damage_component.gd" id="1_oqvum"]
-[ext_resource type="Script" path="res://entities/player/components/speed_component.gd" id="2_pgvay"]
+[ext_resource type="Script" path="res://entities/components/speed_component.gd" id="2_pgvay"]
 [ext_resource type="Script" path="res://entities/components/orientation_component.gd" id="3_qfwed"]
 [ext_resource type="Script" path="res://entities/projectiles/components/straight_movement_component.gd" id="5_0dewo"]
 

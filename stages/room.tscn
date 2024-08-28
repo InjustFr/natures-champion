@@ -1,14 +1,23 @@
-[gd_scene load_steps=5 format=4 uid="uid://dfhwn2og55nd5"]
+[gd_scene load_steps=7 format=4 uid="uid://dfhwn2og55nd5"]
 
 [ext_resource type="Script" path="res://stages/room.gd" id="1_ss476"]
 [ext_resource type="TileSet" uid="uid://d0wef7s7aqcwl" path="res://assets/tileset.tres" id="1_uwffs"]
 [ext_resource type="Script" path="res://stages/entry_point.gd" id="3_dqjga"]
 [ext_resource type="PackedScene" uid="uid://nryj5l57knym" path="res://stages/exit_point.tscn" id="4_p5yna"]
+[ext_resource type="PackedScene" uid="uid://dh3c23gc22bw0" path="res://entities/enemies/corrupted_hog/corrupted_hog.tscn" id="5_djjvq"]
+
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_kis53"]
+vertices = PackedVector2Array(2154.67, -15.0078, -0.960938, 1063.79, -2148.7, -29.8594, 3.96094, -1093.83)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(-2171, -30, 4, -1105, 2177, -15, -1, 1075)])
 
 [node name="Room" type="Node2D" node_paths=PackedStringArray("entry_points", "exit_points")]
 script = ExtResource("1_ss476")
 entry_points = [NodePath("EntryPoint1"), NodePath("EntryPoint2")]
 exit_points = [NodePath("ExitPoint"), NodePath("ExitPoint2")]
+
+[node name="NavigationRegion2D" type="NavigationRegion2D" parent="."]
+navigation_polygon = SubResource("NavigationPolygon_kis53")
 
 [node name="Map" type="Node2D" parent="."]
 y_sort_enabled = true
@@ -40,3 +49,6 @@ orientation = 1
 
 [node name="ExitPoint2" parent="." instance=ExtResource("4_p5yna")]
 position = Vector2(-422, -897)
+
+[node name="CorruptedHog" parent="." instance=ExtResource("5_djjvq")]
+position = Vector2(-11, -749)

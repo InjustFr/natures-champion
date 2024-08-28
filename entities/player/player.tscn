@@ -61,7 +61,7 @@ shape = SubResource("CapsuleShape2D_1c5un")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 
-[node name="EightDirectionAnimatedSpriteComponent" type="AnimatedSprite2D" parent="." node_paths=PackedStringArray("_orientation_component", "stats_component")]
+[node name="EightDirectionAnimatedSpriteComponent" type="AnimatedSprite2D" parent="." node_paths=PackedStringArray("_orientation_component")]
 unique_name_in_owner = true
 position = Vector2(0, -178)
 sprite_frames = ExtResource("2_mdhno")
@@ -69,7 +69,6 @@ animation = &"idle3"
 script = ExtResource("3_hxrpy")
 _orientation_component = NodePath("../OrientationComponent")
 zero_vector = Vector2(0, -1)
-stats_component = NodePath("../StatsComponent")
 
 [node name="AnimalTransformComponent" parent="." node_paths=PackedStringArray("stats_component") instance=ExtResource("14_mm6ol")]
 animal_transform = ExtResource("15_v8onr")
@@ -79,11 +78,12 @@ stats_component = NodePath("../StatsComponent")
 script = ExtResource("5_2tj72")
 stats = ExtResource("6_8nrwu")
 
-[node name="DashingComponent" type="Timer" parent="."]
+[node name="DashingComponent" type="Timer" parent="." node_paths=PackedStringArray("stats_component")]
 process_callback = 0
 wait_time = 0.15
 one_shot = true
 script = ExtResource("91_etbmg")
+stats_component = NodePath("../StatsComponent")
 dash_multiplier = 4.0
 
 [node name="PlayerInputComponent" type="Node" parent="." node_paths=PackedStringArray("orientation_component", "velocity_component", "stats_component")]
@@ -107,6 +107,16 @@ script = ExtResource("10_ctqtp")
 
 [node name="ManaComponent" type="Node" parent="."]
 script = ExtResource("10_ctqtp")
+
+[node name="WeaponComponent" type="Node" parent="." node_paths=PackedStringArray("spawning_entity", "stats_component")]
+script = ExtResource("13_6elsm")
+spawning_entity = NodePath("..")
+stats_component = NodePath("../StatsComponent")
+
+[node name="PlayerUpgradesComponent" type="Node" parent="." node_paths=PackedStringArray("stats_component", "player")]
+script = ExtResource("16_h4ngf")
+stats_component = NodePath("../StatsComponent")
+player = NodePath("..")
 
 [node name="GUI" type="Control" parent="."]
 layout_mode = 3
@@ -156,13 +166,3 @@ theme_override_styles/fill = SubResource("StyleBoxFlat_fk05n")
 show_percentage = false
 script = ExtResource("11_wy6bw")
 resource_component = NodePath("../../../../ManaComponent")
-
-[node name="WeaponComponent" type="Node" parent="." node_paths=PackedStringArray("spawning_entity", "stats_component")]
-script = ExtResource("13_6elsm")
-spawning_entity = NodePath("..")
-stats_component = NodePath("../StatsComponent")
-
-[node name="PlayerUpgradesComponent" type="Node" parent="." node_paths=PackedStringArray("stats_component", "player")]
-script = ExtResource("16_h4ngf")
-stats_component = NodePath("../StatsComponent")
-player = NodePath("..")

@@ -1,0 +1,161 @@
+[gd_scene load_steps=20 format=3 uid="uid://dh3c23gc22bw0"]
+
+[ext_resource type="Script" path="res://entities/components/orientation_component.gd" id="1_gs01y"]
+[ext_resource type="Script" path="res://entities/enemies/corrupted_hog/corrupted_hog.gd" id="1_jsgx0"]
+[ext_resource type="Script" path="res://entities/components/speed_component.gd" id="2_ogfgn"]
+[ext_resource type="Script" path="res://entities/components/velocity_component.gd" id="2_so3sr"]
+[ext_resource type="SpriteFrames" uid="uid://cw03e80wm2qf1" path="res://entities/player/assets/player.tres" id="3_oya5j"]
+[ext_resource type="Script" path="res://entities/components/eight_direction_animated_sprite_component.gd" id="4_rl64h"]
+[ext_resource type="Script" path="res://entities/components/resource_component.gd" id="5_r8mxg"]
+[ext_resource type="Script" path="res://entities/components/hurtbox_component.gd" id="6_5bdfu"]
+[ext_resource type="Script" path="res://entities/components/damage_component.gd" id="7_lprm3"]
+[ext_resource type="Script" path="res://entities/components/player_tracking_component.gd" id="10_ssgwl"]
+[ext_resource type="Script" path="res://entities/components/pathfinding_component.gd" id="11_jogcr"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_bbb5o"]
+radius = 29.0172
+
+[sub_resource type="VisualShaderNodeColorOp" id="VisualShaderNodeColorOp_7xj3m"]
+output_port_for_preview = 0
+default_input_values = [0, Vector3(255, 0, 0), 1, Vector3(0, 0, 0)]
+expanded_output_ports = [0]
+
+[sub_resource type="VisualShaderNodeInput" id="VisualShaderNodeInput_ohtdp"]
+input_name = "color"
+
+[sub_resource type="VisualShaderNodeVectorOp" id="VisualShaderNodeVectorOp_xl46d"]
+operator = 2
+
+[sub_resource type="VisualShader" id="VisualShader_m8cr2"]
+code = "shader_type canvas_item;
+render_mode blend_mix;
+
+
+
+
+void fragment() {
+// Input:3
+	vec4 n_out3p0 = COLOR;
+
+
+// ColorOp:2
+	vec3 n_in2p0 = vec3(255.00000, 0.00000, 0.00000);
+	vec3 n_in2p1 = vec3(0.00000, 0.00000, 0.00000);
+	vec3 n_out2p0 = vec3(1.0) - (vec3(1.0) - n_in2p0) * (vec3(1.0) - n_in2p1);
+
+
+// VectorOp:4
+	vec3 n_out4p0 = vec3(n_out3p0.xyz) * n_out2p0;
+
+
+// Output:0
+	COLOR.rgb = n_out4p0;
+
+
+}
+"
+mode = 1
+flags/light_only = false
+nodes/fragment/2/node = SubResource("VisualShaderNodeColorOp_7xj3m")
+nodes/fragment/2/position = Vector2(-1020, 500)
+nodes/fragment/3/node = SubResource("VisualShaderNodeInput_ohtdp")
+nodes/fragment/3/position = Vector2(-1140, 240)
+nodes/fragment/4/node = SubResource("VisualShaderNodeVectorOp_xl46d")
+nodes/fragment/4/position = Vector2(-464.621, 180.27)
+nodes/fragment/connections = PackedInt32Array(2, 0, 4, 1, 3, 0, 4, 0, 4, 0, 0, 0)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_kb42j"]
+shader = SubResource("VisualShader_m8cr2")
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_t51wo"]
+radius = 39.0
+height = 162.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_8gu72"]
+radius = 32.0
+height = 74.0
+
+[node name="CorruptedHog" type="CharacterBody2D"]
+collision_layer = 4
+collision_mask = 3
+script = ExtResource("1_jsgx0")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 10)
+shape = SubResource("CircleShape2D_bbb5o")
+
+[node name="SpeedComponent" type="Node" parent="."]
+script = ExtResource("2_ogfgn")
+speed = 400.0
+
+[node name="OrientationComponent" type="Node" parent="."]
+script = ExtResource("1_gs01y")
+
+[node name="VelocityComponent" type="Node" parent="."]
+script = ExtResource("2_so3sr")
+
+[node name="PlayerTrackingComponent" type="Node" parent="." node_paths=PackedStringArray("orientation_component", "velocity_component", "agent")]
+script = ExtResource("10_ssgwl")
+orientation_component = NodePath("../OrientationComponent")
+velocity_component = NodePath("../VelocityComponent")
+agent = NodePath("..")
+
+[node name="PathfindingComponent" type="NavigationAgent2D" parent="." node_paths=PackedStringArray("velocity_component", "speed_component", "agent")]
+target_desired_distance = 50.0
+avoidance_enabled = true
+script = ExtResource("11_jogcr")
+velocity_component = NodePath("../VelocityComponent")
+speed_component = NodePath("../SpeedComponent")
+agent = NodePath("..")
+
+[node name="EightDirectionAnimatedSpriteComponent" type="AnimatedSprite2D" parent="." node_paths=PackedStringArray("_orientation_component")]
+material = SubResource("ShaderMaterial_kb42j")
+position = Vector2(0, -178)
+sprite_frames = ExtResource("3_oya5j")
+animation = &"idle0"
+script = ExtResource("4_rl64h")
+_orientation_component = NodePath("../OrientationComponent")
+zero_vector = Vector2(0, -1)
+
+[node name="ResourceComponent" type="Node" parent="."]
+script = ExtResource("5_r8mxg")
+value_max = 10
+
+[node name="HurtboxComponent" type="Area2D" parent="." node_paths=PackedStringArray("health_component")]
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("6_5bdfu")
+health_component = NodePath("../ResourceComponent")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtboxComponent"]
+position = Vector2(1, -41)
+shape = SubResource("CapsuleShape2D_t51wo")
+
+[node name="DamageComponent" type="Area2D" parent="."]
+collision_layer = 4
+collision_mask = 0
+script = ExtResource("7_lprm3")
+damage = 5
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DamageComponent"]
+position = Vector2(3, -11)
+shape = SubResource("CapsuleShape2D_8gu72")
+
+[node name="Label" type="Label" parent="."]
+offset_left = -19.0
+offset_top = -53.0
+offset_right = 21.0
+offset_bottom = -30.0
+text = "C.H"
+horizontal_alignment = 1
+
+[node name="PlayerDetectArea2D" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="PlayerDetectArea2D"]
+polygon = PackedVector2Array(-1024, 0, -886, -256, -724, -362, -512, -444, 0, -512, 512, -444, 724, -362, 886, -256, 1024, 0, 886, 256, 724, 362, 512, 444, 0, 512, -512, 444, -724, 362, -886, 256)
+
+[node name="Line2D" type="Line2D" parent="."]
+points = PackedVector2Array(0, 0, 400, 0)
+default_color = Color(1, 0, 0, 1)

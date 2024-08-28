@@ -10,6 +10,7 @@ var weapon: Weapon
 func _ready() -> void:
 	@warning_ignore("return_value_discarded")
 	stats_component.stats_changed.connect(_on_stats_changed)
+	_on_stats_changed(stats_component.stats)
 
 
 func _unhandled_input(event: InputEvent) -> void:

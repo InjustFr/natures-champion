@@ -1,7 +1,7 @@
 class_name DashingComponent
 extends Timer
 
-@export var speed_component: SpeedComponent
+@export var stats_component: StatsComponent
 
 @export var dash_multiplier: float = 1.5;
 
@@ -16,9 +16,9 @@ func _unhandled_input(event: InputEvent) -> void:
 		_start_dash()
 
 func _start_dash() -> void:
-	speed_component.speed = speed_component.speed * dash_multiplier
+	stats_component.stats.speed = stats_component.stats.speed * dash_multiplier
 	start()
 
 
 func _end_dash() -> void:
-	speed_component.speed = speed_component.speed / dash_multiplier
+	stats_component.stats.speed = stats_component.stats.speed / dash_multiplier

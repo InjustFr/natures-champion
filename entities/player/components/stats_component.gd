@@ -16,6 +16,10 @@ var stats_upgrade: Array[Stats] = []
 var form_stats_upgrade: Array[Stats] = []
 
 
+func _ready() -> void:
+	stats_changed.emit(_calculate_stats())
+
+
 func _calculate_stats() -> Stats:
 	var upgrades: Array[Stats] = stats_upgrade
 	if base_stats.transformation_stats:
